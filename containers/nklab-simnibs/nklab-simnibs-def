@@ -1,0 +1,185 @@
+Bootstrap: docker
+From: ubuntu:xenial
+
+%help
+exec /opt/bin/startup.sh "-h"
+
+%setup
+cp ./src/fsl_sub $SINGULARITY_ROOTFS
+cp ./src/license.txt $SINGULARITY_ROOTFS
+cp ./src/startup.sh $SINGULARITY_ROOTFS
+cp ./src/readme $SINGULARITY_ROOTFS
+cp ./src/version $SINGULARITY_ROOTFS
+
+%environment
+export FS_LICENSE=$FREESURFER_HOME/license.txt
+
+export LD_LIBRARY_PATH=/.singularity.d/libs:/usr/lib:/opt/freesurfer/mni/lib:$LD_LIBRARY_PATH
+
+export FSLDIR=/opt/fsl
+export FSL_DIR=/opt/fsl
+export PATH=$FSLDIR/bin:$PATH
+
+export FREESURFER_HOME=/opt/freesurfer
+export PATH=/opt/simnibs-2.1.2-Linux64/bin:$PATH
+export PATH=/cm/shared/uaapps/matlab/r2018b/bin:$PATH
+
+%files
+
+%runscript
+cd /opt/data
+exec /opt/bin/startup.sh "$@"
+
+%test
+
+%post
+mkdir -p /uaopt /extra /xdisk /rsgrps /opt/data /opt/bin /opt/work /opt/config /opt/input /opt/output /cm/shared /cm/local
+
+apt-get update
+
+apt-get install -y \
+locales 
+
+echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+locale-gen en_US.UTF-8
+
+
+apt-get install -y \
+	nano \
+	apt-utils \
+	wget \
+	curl \
+        dc \
+	lsb-core \
+	python-pip \
+        libx11-6 \
+        libgl1 \
+        libgtk-3-0 \
+        libgtk-3-dev \
+        libsm6 \
+        libxext6 \
+        libxt6 \
+        mesa-common-dev \
+        freeglut3-dev \
+        zlib1g-dev \
+        libpng-dev \
+        expat \
+        unzip \
+        libeigen3-dev \
+        zlib1g-dev \
+        libqt4-opengl-dev \
+        libgl1-mesa-dev \
+        libfftw3-dev \
+        libtiff5-dev \
+        graphviz \
+        libgraphviz-dev \
+        software-properties-common
+add-apt-repository universe
+apt-get update && apt-get install -y \
+        tcsh \
+        xfonts-base \
+        python-qt4 \
+        gsl-bin \
+        gnome-tweak-tool \
+        libjpeg62 \
+        xvfb \
+        xterm \
+        vim \
+        libglu1-mesa-dev \
+        libglw1-mesa   \
+        libxm4 \
+        netpbm
+apt-get update && apt-get install -y \
+        hdf5-tools \
+        openmpi-bin \
+        openmpi-doc \
+        libopenmpi-dev \
+        gfortran \
+        python-matplotlib \
+        git \
+        x11-xserver-utils \
+        firefox \
+        midori \
+        python3-pip \
+
+apt-get install -y \
+        nano \
+        wget \
+        curl \
+        dc \
+        unzip \
+        git \
+        python-pip \
+        python3-pip \
+        libgtk-3-dev \
+        freeglut3-dev \
+        libwebkitgtk-dev \
+        libwebkitgtk-3.0-dev \
+        libgstreamer1.0-dev \
+        libgstreamer-plugins-base1.0-dev 
+
+
+apt-get install -y \
+        libopenblas-base \
+        tcsh \
+        libxrandr-dev \
+        libxcursor-dev \
+        libxss1 \
+        libjpeg62 \
+        libasound2 \
+        libxmu6
+
+apt-get install -y libfreetype6-dev
+apt-get install -y libfontconfig1 
+apt-get install -y libxrender1
+apt-get install -y xkb-data
+apt-get install -y mesa-utils
+apt-get install -y libgl1-mesa-glx
+        
+pip install -U wxPython
+pip3 install -U wxPython
+
+cd /opt
+wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py
+export FSLDIR=/opt/fsl
+export PATH=${FSLDIR}/bin:${PATH}
+python2.7 fslinstaller.py -q -d $FSLDIR
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+cd /opt
+export FREESURFER_HOME=/opt/freesurfer
+wget ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/dev/freesurfer-linux-centos6_x86_64-dev.tar.gz
+tar xz -f freesurfer-linux-centos6_x86_64-dev.tar.gz
+cd /usr/lib/x86_64-linux-gnu
+ln -s libtiff.so.4 libtiff.so.3
+rm /opt/freesurfer-linux-centos6_x86_64-dev.tar.gz
+cd $FREESURFER_HOME
+curl "https://surfer.nmr.mgh.harvard.edu/fswiki/MatlabRuntime?action=AttachFile&do=get&target=runtime2014bLinux.tar.gz" -o "runtime.tar.gz"
+tar xvf runtime.tar.gz
+rm $FREESURFER_HOME/runtime.tar.gz
+
+cd /opt
+wget https://www.dropbox.com/s/m62yo2sw8w5a8ih/simnibs-2.1.2-Linux64.tar.gz
+tar -xvf simnibs-2.1.2-Linux64.tar.gz 
+rm simnibs-2.1.2-Linux64.tar.gz
+cd simnibs-2.1.2-Linux64
+sed -i "s/read -r -p/#read -r -p/g" install_simnibs.sh
+sed -i "s/read -r -p/#read -r -p/g" install_miniconda_instance.sh
+sed -i "/echo 'Installing Miniconda/a response=Y" install_miniconda_instance.sh
+./install_simnibs.sh develop
+
+#apt-get install -y software-properties-common
+#add-apt-repository universe
+#printf '\n' | add-apt-repository ppa:beineri/opt-qt-5.11.1-xenial
+#apt-get update
+#apt install -y qt-latest 
+
+chmod -R 777 /opt
+
+mv /fsl_sub $FSLDIR/bin
+mv /license.txt $FREESURFER_HOME
+mv /startup.sh /opt/bin
+mv /readme /opt/bin
+mv /version /opt/bin
