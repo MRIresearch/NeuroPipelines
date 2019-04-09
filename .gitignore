@@ -1,3 +1,7 @@
+#NIFTIs
+.nii
+.nii.gz
+
 # Singularity images
 .simg
 .img
