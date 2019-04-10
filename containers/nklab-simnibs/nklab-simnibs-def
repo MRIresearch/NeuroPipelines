@@ -149,15 +149,12 @@ python2.7 fslinstaller.py -q -d $FSLDIR
 
 cd /opt
 export FREESURFER_HOME=/opt/freesurfer
-wget ftp://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/dev/freesurfer-linux-centos6_x86_64-dev.tar.gz
-tar xz -f freesurfer-linux-centos6_x86_64-dev.tar.gz
+wget https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/6.0.0/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz
+tar xz -f freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz
 cd /usr/lib/x86_64-linux-gnu
 ln -s libtiff.so.4 libtiff.so.3
-rm /opt/freesurfer-linux-centos6_x86_64-dev.tar.gz
+rm /opt/freesurfer-Linux-centos6_x86_64-stable-pub-v6.0.0.tar.gz
 cd $FREESURFER_HOME
-curl "https://surfer.nmr.mgh.harvard.edu/fswiki/MatlabRuntime?action=AttachFile&do=get&target=runtime2014bLinux.tar.gz" -o "runtime.tar.gz"
-tar xvf runtime.tar.gz
-rm $FREESURFER_HOME/runtime.tar.gz
 
 cd /opt
 wget https://www.dropbox.com/s/m62yo2sw8w5a8ih/simnibs-2.1.2-Linux64.tar.gz

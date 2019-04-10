@@ -1,6 +1,16 @@
-#NIFTIs
+# Matlab
+*.mat 
+
+# documents
+.pdf
+
+#NIFTIs and DICOMS
 .nii
 .nii.gz
+.dcm
+.IMA
+.DCM
+.ima
 
 # Singularity images
 .simg
