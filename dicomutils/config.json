@@ -1,0 +1,18 @@
+{
+"Exclude":["Localizers","AAHEAD","MoCoSeries"
+   ],
+
+"Associate":{
+   "SHELL_TENSOR":"SHELL_FA"
+
+},
+
+"Multiassociate":{
+	"Typelist":{
+		"TypeA":["one","two","three"]
+	}
+}
+
+
+
+}
