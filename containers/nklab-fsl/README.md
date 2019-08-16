@@ -26,6 +26,7 @@ You can now run commands by simply appending them to the end of  `singularity ru
 Provided below are notes on specific aspects of the container that may be useful.
 
 ---
+
 ## Accessing different versions of FSL within the container
 This container uses an enclosed startup script (see `startup.sh` in directory `src`) - this script allows the environment variables of the container to be managed.
 
@@ -40,6 +41,7 @@ When you pass the `--sourcepre` parameter the container looks for a bash file ca
 `singularity run -B $PWD:/opt/input nklab-fsl-v##.sif --sourcepre flirt`
 
 The container parameters like `--dev`, `--sourcepre`, `--hcp` etc. are mutually exclusive. Only one parameter can be used at a time. The parameter `--sourceboth` gives you the most flexibility. It will source from `/opt/input/nklab-config-pre.sh` and `/opt/input/nklab-config-post.sh` just before the fsl scripts are sourced.
+
 ---
 
 ## Resting State FMRI pipeline (Nan-kuei Chen/Duke University) 
