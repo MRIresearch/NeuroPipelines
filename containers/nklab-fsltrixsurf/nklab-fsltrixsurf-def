@@ -47,6 +47,8 @@ export FREESURFER_HOME=/opt/freesurfer
 export FS_LICENSE=$FREESURFER_HOME/license.txt
 export PATH=$FREESURFER_HOME/bin:$PATH
 
+export PATH=/opt/mrtrix3/bin:$PATH
+
 
 %runscript
 cd /opt/data
