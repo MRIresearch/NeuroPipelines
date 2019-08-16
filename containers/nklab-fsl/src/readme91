@@ -1,0 +1,3 @@
+Singularity container with FSL 6.0.1 and CUDA toolkit 9.1
+
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-fsl/README.md for more information about this container.

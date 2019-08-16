@@ -1,0 +1,6 @@
+Singularity container with: 
+    latest Freesurfer development version (/opt/freesurfer-dev)
+    Stable freesurver 6.0 with applied patch (/opt/freesurfer) see notes: https://surfer.nmr.mgh.harvard.edu/fswiki/BrainVolStatsFixed
+    The freesurfer version 5.3.0 used for HCP processing (/opt/freesurfer-HCP)
+
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-freesurfer/README.md for more information about this container.

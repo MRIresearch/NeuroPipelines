@@ -2,19 +2,23 @@
 *.mat 
 
 # documents
-.pdf
+*.pdf
+
+# log files
+output.txt
 
 #NIFTIs and DICOMS
-.nii
-.nii.gz
-.dcm
-.IMA
-.DCM
-.ima
+*.nii
+*.nii.gz
+*.dcm
+*.IMA
+*.DCM
+*.ima
 
 # Singularity images
-.simg
-.img
+*.simg
+*.img
+*.sif
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

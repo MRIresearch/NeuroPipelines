@@ -1,0 +1,3 @@
+Singularity container with MRtrix 3.0 RC3
+
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-mrtrix/README.md for more information about this container.

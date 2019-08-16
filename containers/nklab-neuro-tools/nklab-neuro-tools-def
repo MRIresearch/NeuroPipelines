@@ -64,6 +64,11 @@ exec /opt/bin/startup.sh "$@"
 
 %post
 mkdir -p /uaopt /extra /xdisk /rsgrps /opt/data /opt/bin /opt/work /opt/input /opt/output /cm/shared /cm/local /opt/config
+
+export DEBIAN_FRONTEND=noninteractive
+export TZ=America/Phoenix
+ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 export BXHVER=bxh_xcede_tools-1.11.1-lsb30.x86_64
 export BXHLOC=7384
 export BXHBIN=/opt/$BXHVER
@@ -172,17 +177,23 @@ apt-get install -y xkb-data
 apt-get install -y mesa-utils
 apt-get install -y libgl1-mesa-glx
         
-pip install -U numpy
-pip install -U scipy
-pip install -U nibabel
-pip install -U networkx==1.11
-pip install -U nipype
-pip install -U rdflib
-pip install -U nipy
-pip install -U dipy
-pip install -U pyBIDS
-pip install -U wxPython
+pip install numpy==1.16.0
+pip install scipy==1.1.0
+pip install nibabel==2.5.0
+pip install networkx==1.11
+pip install rdflib==4.2.2
+pip install pytest==3.0.0
+pip install nipype==1.1.5
+pip install nipy==0.4.2
+pip install dipy==1.0.0
+pip install pandas==0.24
+pip install pyBIDS==0.9.3
+pip install pathlib2==2.3.4
+pip install wxPython==4.0.6
 
+apt purge -y python3-pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
 pip3 install -U xgboost
 pip3 install -U numpy
 pip3 install -U scipy
@@ -198,13 +209,18 @@ pip3 install -U MNE
 pip3 install -U nilearn
 pip3 install -U jupyter
 pip3 install -U pyBIDS
+pip3 install -U pathlib2
 pip3 install -U wxPython
 pip3 install -U docopt
-pip3 install -U matplotlib
+pip3 install -U matplotlib==3.0.3
 pip3 install -U pandas
 pip3 install -U pyyaml
 pip3 install -U seaborn
 pip3 install -U Pillow
+
+# test customizable cores
+#export NUMCORES=$(grep -c ^processor /proc/cpuinfo)
+export NUMCORES=4
 
 #install CUDA 8.0
 cd /tmp
@@ -351,7 +367,7 @@ git clone https://github.com/stnava/ANTs.git
 mkdir /opt/ANTScode/bin
 cd /opt/ANTScode/bin
 cmake /opt/ANTScode/ANTs
-make -j 4
+make -j $NUMCORES
 ln -sf /usr/lib/ants/N4BiasFieldCorrection /usr/local/bin/
 
 export HOMEBACK=$HOME
@@ -377,11 +393,12 @@ cp /tmp/bedpost/lib/* $FSLDIR/lib
 rm -r /tmp/bedpost
 sed -i 's\#!/bin/sh\#!/bin/bash\g' $FSLDIR/bin/bedpostx_postproc_gpu.sh
 
-cd /opt
-. /opt/bin/changePython3.sh
-pip3 install -r https://raw.githubusercontent.com/poldracklab/mriqc/master/requirements.txt
-pip3 install git+https://github.com/poldracklab/mriqc.git
-. /opt/bin/changePython2.sh
+#Issues with MRIQC install - consider removing
+#cd /opt
+#. /opt/bin/changePython3.sh
+#pip3 install -r https://raw.githubusercontent.com/poldracklab/mriqc/master/requirements.txt
+#pip3 install git+https://github.com/poldracklab/mriqc.git
+#. /opt/bin/changePython2.sh
 
 cd /tmp
 wget "http://www.nitrc.org/frs/download.php/$BXHLOC/$BXHVER.tgz"
