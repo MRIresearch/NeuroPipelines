@@ -1,5 +1,8 @@
-#  Singularity 3.2.1 recipe for latest version of FSL Neuroimaging software Included in container:
-* FSL 6.0.1. The CUDA 8.0 (or 9.1) toolkit libraries have also been installed allowing gpu compatible versions of eddy, bedpostx and probtraxck to be run.
+#  Introduction
+This is a recipe file for installing specific versions of neuroimaging software in a singularity container. Please note that it is highly likely that the steps in the recipe file will need changes as links to dependencies become inaccessible or fundamental changes
+
+# Contents
+* FSL 6.0.1. The CUDA 8.0 toolkit libraries have also been installed allowing gpu compatible versions of eddy, bedpostx and probtraxck to be run.
 * FSL 5.0.6 for HCP Processing
 * The Duke Resting State fMRI pipeline is also included.
 * MRtrix 3.0.0 RC 3
@@ -21,17 +24,16 @@ The image can be built using Singularity build in singularity (version >= 2.4, p
 ## Build Singularity Image
 
 * You will need to have singularity (version >= 2.4 installed, preferably version 3.0 or greater). Simply clone this repository to a convenient directory.
-* Navigate into the `nklab-neurotools-v0.4` directory and check that you have a Singularity definition file `nklab-neurotools-def` and the directory `src' 
-* Download ITK-SNAP 3.6.0 (STABLE VERSION) as a `Linux Binary (64 bit)` called  `itksnap-3.6.0-20170401-Linux-x86_64.tar.gz` [http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.SNAP3](ITK-SNAP)into the src directory and ensure it has read
-* Now simply build the image as  `sudo singularity build nklab-fsltrixsurf.sif nklab-fsltrixsurf-def` - note that the image name is assumed to be `nklab-fsltrixsurf.sif` but this can be changed to a more convenient label.
-* Using the build script `build.sh` will do above but will also append a version number from the version file to the name of the image as for example `singularity run nklab-fsltrixsurf-v0.2.sif` 
+* Navigate into the `nklab-neurotools-v0.4` directory and check that you have a Singularity definition file `nklab-neurotools-def` and the directory `src` 
+* Download ITK-SNAP 3.6.0 (STABLE VERSION) as a **Linux Binary (64 bit)** called  `itksnap-3.6.0-20170401-Linux-x86_64.tar.gz` from [ITK-SNAP](http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.SNAP3) into the `src` directory.
+* Now simply build the image as  `sudo singularity build nklab-neurotools-v0.4.sif nklab-neurotoolsf-def` - note that the image name is assumed to be `nklab-neurotools-v0.4.sif` but this can be changed to a more convenient label.
 
 ## Run Singularity Image
 You can now run commands by simply appending them to the end of  `singularity run nklab-neurotools-v0.4.sif` So for example to run an FSL command like flirt directly the following would be entered: `singularity run nklab-neurotools-v0.4.sif flirt ....`
 
 ### Cuda Compatibility
 * You can run Cuda-8.0 compatible executables by using the `--nv` parameter. The example provided next shows how to accomplish this with `eddy-cuda8.0`:
-`singularity run --nv nklab-fsltrixsurf-v0.4.sif/opt/fsl/bin/eddy_cuda8.0 --imain=G1_1_OFF_28271_cgm --mask=G1_1_OFF_28271_cgm0_brain_mask --acqp=acqparams.txt --index=index.txt --bvecs=bvecs --bvals=bvals --out=G1_1_OFF_28271_cgm_eddy`
+`singularity run --nv nklab-neurotools-v0.4.sif/opt/fsl/bin/eddy_cuda8.0 --imain=G1_1_OFF_28271_cgm --mask=G1_1_OFF_28271_cgm0_brain_mask --acqp=acqparams.txt --index=index.txt --bvecs=bvecs --bvals=bvals --out=G1_1_OFF_28271_cgm_eddy`
 
 ### Shell into Singularity Image
 * You can also shell into the singularity image using: `singularity shell nklab-neurotools-v0.4.sif` and then run commands at the command line within the container.
@@ -43,12 +45,12 @@ Provided below are notes on specific aspects of the container that may be useful
 ## Accessing different versions of FSL within the container
 This container uses an enclosed startup script (see `startup.sh` in directory `src`) - this script allows the environment variables of the container to be managed.
 
-* FSL v6.0.1 and Freesurfer v6.0.0 run as the default when you use `singularity run nklab-fsltrixsurf-v##.sif`. So for example to run recon-all in Freesurfer version v6.0.0 then just do `singularity run nklab-fsltrixsurf-v##.sif recon-all`
-* to run the HCP version of FSL (v5.0.6) or Freesurfer (v5.3.0) then use`--hcp as follows `singularity run nklab-fsl-v##.sif --hcp flirt`
-* When using FSL 5.0.6 some commands like flirt may write out an output matrix in hexadecimal format. You can convert these to decimal format using the script /opt/bin/convertHex.sh
-* for freesurfer, a matlab source file is also available at /opt/bin/startup.m to be used with matlab scripts.
-* to run the development version of Freesurfer  then use`--dev as follows `singularity run nklab-fsltrixsurf-v##.sif --dev recon-all`
-* use --ciftify to source the correct version of msm for use in the ciftify pipeline
+* FSL v6.0.1 and Freesurfer v6.0.0 run as the default when you use `singularity run nklab-neurotools-v0.4.sif`. So for example to run `recon-all` in Freesurfer version v6.0.0 then just do `singularity run nklab-neurotools-v0.4.sif recon-all`
+* to run the HCP version of FSL (v5.0.6) or Freesurfer (v5.3.0) then use `--hcp` as follows `singularity run nklab-neurotools-v0.4.sif --hcp flirt`
+* When using FSL 5.0.6 some commands like `flirt` may write out an output matrix in hexadecimal format. You can convert these to decimal format using the script `/opt/bin/convertHex.sh`
+* for freesurfer, a matlab source file is also available at `/opt/bin/startup.m` to be used with matlab scripts.
+* to run the development version of Freesurfer  then use `--dev as follows `singularity run nklab-neurotools-v0.4.sif --dev recon-all`
+* use `--ciftify` to source the correct version of `msm` for use in the ciftify pipeline
 
 ## Setting up custom environmental variables
 The fsl and freesurfer environments are sourced within the startup script. To tweak the environment you can source scripts nefore (`--sourcepre`), after (`--sourcepost`) or both after and before (`--sourceboth`) the fsl scripts are run.
