@@ -5,7 +5,7 @@ Singularity container with:
     latest Freesurfer development version (/opt/freesurfer-dev)
     Stable freesurver 6.0 with applied patch (/opt/freesurfer) see notes: https://surfer.nmr.mgh.harvard.edu/fswiki/BrainVolStatsFixed
     The freesurfer version 5.3.0 used for HCP processing (/opt/freesurfer-HCP)
-    HCP Workbench (wbview and wbcommand) v1.3.2
+    HCP Workbench (wbview and wbcommand) v1.5.0
     HCP Pipelines v4.0.1
     ANTS v2.3.1
     Ciftify v2.1.0
@@ -16,4 +16,4 @@ When using FSL 5.0.6 some commands like flirt may write out an output matrix in 
 
 For freesurfer, a matlab source file is also available at /opt/bin/startup.m to be used with matlab scripts.
 
-Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-fsltrixsurf/README.md for more information about this container.
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-neurotools-v0.4/README.md  for more information about this container.

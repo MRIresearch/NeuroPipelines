@@ -9,7 +9,7 @@ Singularity container with:
     latest Freesurfer development version (/opt/freesurfer-dev)
     Stable freesurver 6.0 with applied patch (/opt/freesurfer) see notes: https://surfer.nmr.mgh.harvard.edu/fswiki/BrainVolStatsFixed
     The freesurfer version 5.3.0 used for HCP processing (/opt/freesurfer-HCP)
-    HCP Workbench (wbview and wbcommand) v1.3.2
+    HCP Workbench (wbview and wbcommand) v1.5.0
     HCP Pipelines v4.0.1
     ANTS v2.3.1
     Ciftify v2.1.0
@@ -21,7 +21,7 @@ When using FSL 5.0.6 some commands like flirt may write out an output matrix in 
 
 for freesurfer, a matlab source file is also available at /opt/bin/startup.m to be used with matlab scripts.
 
-Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-fsltrixsurf/README.md for more information about this container.
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-neurotools-v0.4/README.md for more information about this container.
 
 
 %setup
@@ -150,7 +150,8 @@ apt-get install -y  freeglut3-dev \
 cd /tmp        
 apt purge -y python-pip
 apt purge -y python3-pip
-curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+#curl https://bootstrap.pypa.io/pip/get-pip.py -o /tmp/get-pip.py
+curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o /tmp/get-pip.py
 python3 get-pip.py
 python2 get-pip.py
 
@@ -392,11 +393,16 @@ rm $BXHVER.tgz
 
 # HCP workbench
 cd /opt
-wget https://www.humanconnectome.org/storage/app/media/workbench/workbench-linux64-v1.3.2.zip
-unzip workbench-linux64-v1.3.2.zip
-rm workbench-linux64-v1.3.2.zip
+#wget https://www.humanconnectome.org/storage/app/media/workbench/workbench-linux64-v1.3.2.zip
+#unzip workbench-linux64-v1.3.2.zip
+#rm workbench-linux64-v1.3.2.zip
 #https://www.mail-archive.com/hcp-users@humanconnectome.org/msg07348.html
-mv /opt/workbench/libs_linux64/libz.so.1 /opt/workbench/libs_linux64/libz.so.1.back
+#mv /opt/workbench/libs_linux64/libz.so.1 /opt/workbench/libs_linux64/libz.so.1.back
+
+wget https://www.humanconnectome.org/storage/app/media/workbench/workbench-linux64-v1.5.0.zip
+unzip workbench-linux64-v1.5.0.zip
+rm workbench-linux64-v1.5.0.zip
+
 
 mv /changePython2.sh /opt/bin/changePython2.sh
 mv /changePython3.sh /opt/bin/changePython3.sh

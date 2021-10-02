@@ -3,7 +3,7 @@
 * FSL 5.0.6 for HCP Processing
 * The Duke Resting State fMRI pipeline is also included.
 * MRtrix 3.0.0 RC 3
-* latest Freesurfer development version (/opt/freesurfer-dev)
+* latest Freesurfer development version will be included(/opt/freesurfer-dev)
 * Stable freesurver 6.0 with applied patch (/opt/freesurfer) see notes: https://surfer.nmr.mgh.harvard.edu/fswiki/BrainVolStatsFixed
 * The freesurfer version 5.3.0 used for HCP processing (/opt/freesurfer-HCP)
 * HCP Workbench (wbview and wbcommand) v1.3.2
@@ -11,6 +11,7 @@
 * ANTS v2.3.1
 * Ciftify v2.1.0
 * AFNI v19,2_14 'Claudius'
+* ITK-SNAP v3.6.0 (This will need to be sourced separately before building the image)
  
 
 The image can be built using Singularity build in singularity (version >= 2.4, preferably 3.0 or greater)
@@ -20,20 +21,20 @@ The image can be built using Singularity build in singularity (version >= 2.4, p
 ## Build Singularity Image
 
 * You will need to have singularity (version >= 2.4 installed, preferably version 3.0 or greater). Simply clone this repository to a convenient directory.
-* Navigate into the `nklab-fsltrixsurf` directory and check that you have a Singularity definition file `nklab-fsltrixsurf-def` and the directory `src` (use nklab-fsltrixsurf91-def for CUDA 9.1) 
-* Confirm that `src` folder and all the files in `src` have full read and write privileges. if not then `sudo chmod -R 777 src` should accomplish this.
+* Navigate into the `nklab-neurotools-v0.4` directory and check that you have a Singularity definition file `nklab-neurotools-def` and the directory `src' 
+* Download ITK-SNAP 3.6.0 (STABLE VERSION) as a `Linux Binary (64 bit)` called  `itksnap-3.6.0-20170401-Linux-x86_64.tar.gz` [http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.SNAP3](ITK-SNAP)into the src directory and ensure it has read
 * Now simply build the image as  `sudo singularity build nklab-fsltrixsurf.sif nklab-fsltrixsurf-def` - note that the image name is assumed to be `nklab-fsltrixsurf.sif` but this can be changed to a more convenient label.
 * Using the build script `build.sh` will do above but will also append a version number from the version file to the name of the image as for example `singularity run nklab-fsltrixsurf-v0.2.sif` 
 
 ## Run Singularity Image
-You can now run commands by simply appending them to the end of  `singularity run nklab-fsltrixsurf-v##.sif` So for example to run an FSL command like flirt directly the following would be entered: `singularity run nklab-fsltrixsurf-v##.sif flirt ....`
+You can now run commands by simply appending them to the end of  `singularity run nklab-neurotools-v0.4.sif` So for example to run an FSL command like flirt directly the following would be entered: `singularity run nklab-neurotools-v0.4.sif flirt ....`
 
 ### Cuda Compatibility
-* You can run Cuda-8.0 (or cuda 9.1) compatible executables by using the `--nv` parameter. The example provided next shows how to accomplish this with `eddy-cuda8.0`:
-`singularity run --nv nklab-fsltrixsurf-v##.sif/opt/fsl/bin/eddy_cuda8.0 --imain=G1_1_OFF_28271_cgm --mask=G1_1_OFF_28271_cgm0_brain_mask --acqp=acqparams.txt --index=index.txt --bvecs=bvecs --bvals=bvals --out=G1_1_OFF_28271_cgm_eddy`
+* You can run Cuda-8.0 compatible executables by using the `--nv` parameter. The example provided next shows how to accomplish this with `eddy-cuda8.0`:
+`singularity run --nv nklab-fsltrixsurf-v0.4.sif/opt/fsl/bin/eddy_cuda8.0 --imain=G1_1_OFF_28271_cgm --mask=G1_1_OFF_28271_cgm0_brain_mask --acqp=acqparams.txt --index=index.txt --bvecs=bvecs --bvals=bvals --out=G1_1_OFF_28271_cgm_eddy`
 
 ### Shell into Singularity Image
-* You can also shell into the singularity image using: `singularity shell nklab-fsltrixsurf-v##.sif` and then run commands at the command line within the container.
+* You can also shell into the singularity image using: `singularity shell nklab-neurotools-v0.4.sif` and then run commands at the command line within the container.
 
 Provided below are notes on specific aspects of the container that may be useful.
 
@@ -88,7 +89,7 @@ please note that the default custom slice file expected uses slice order. If you
 
 ### Example Commands
 #### Create Slice Timing files from json
-`singularity run  -B $PWD:/opt/data nklab-neuro-tools.simg /opt/rsfmri_python/bin/make_fsl_stc.py /opt/data/fmri.json`
+`singularity run  -B $PWD:/opt/data nklab-neurotools-v0.4.sif /opt/rsfmri_python/bin/make_fsl_stc.py /opt/data/fmri.json`
 
 #### Run pipeline (also runs sliding window with window-30s, shift=3s) using custom slice timing file
-`singularity run  --rm  -B $PWD:/opt/data  nklab-fsltrixsurf.sif  /opt/rsfmri_python/bin/resting_pipeline.py --func /opt/data/fmri-std-pre.nii.gz -o restoutput --steps=1,2,3,4,5,6,7,8 --slidewin=30,3 --sliceorder=/opt/data/slicetimes.txt --slicetiming=time --tr=3000`
+`singularity run  --rm  -B $PWD:/opt/data  nklab-neurotools-v0.4.sif  /opt/rsfmri_python/bin/resting_pipeline.py --func /opt/data/fmri-std-pre.nii.gz -o restoutput --steps=1,2,3,4,5,6,7,8 --slidewin=30,3 --sliceorder=/opt/data/slicetimes.txt --slicetiming=time --tr=3000`
