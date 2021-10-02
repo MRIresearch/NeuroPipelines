@@ -1,5 +1,10 @@
 #  Introduction
-This is a recipe file for installing specific versions of neuroimaging software in a singularity container. Please note that it is highly likely that the steps in the recipe file will need changes as links to dependencies become inaccessible or fundamental changes
+This is a recipe file for installing specific versions of neuroimaging software in the singularity container nklab-neurotools-v0.4.sif. Please note that it is highly likely that the steps in the recipe file will need changes as links to dependencies become inaccessible or fundamental changes. 
+
+# Changes 
+There are a fewer changes from the original image which was initially built on 9/18/2019. These are minor changes and should not affect the reproducibility of the functionality of this image. You can view the original definition file at `nklab-neurotools-def-original`
+* HCP Workbench (wbview and wbcommand) v1.3.2 replaced by v1.5.0 (v1.3.2 no longer accessible)
+* Pip url changed from https://bootstrap.pypa.io/pip/get-pip.py to https://bootstrap.pypa.io/pip/3.5/get-pip.py (URL location changed)
 
 # Contents
 * FSL 6.0.1. The CUDA 8.0 toolkit libraries have also been installed allowing gpu compatible versions of eddy, bedpostx and probtraxck to be run.
