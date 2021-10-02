@@ -1,0 +1,19 @@
+Singularity container with:
+    FSL 6.0.1 and CUDA Toolkit 8.0
+    FSL 5.0.6 for HCP Processing
+    MRtrix 3.0.0 RC 3
+    latest Freesurfer development version (/opt/freesurfer-dev)
+    Stable freesurver 6.0 with applied patch (/opt/freesurfer) see notes: https://surfer.nmr.mgh.harvard.edu/fswiki/BrainVolStatsFixed
+    The freesurfer version 5.3.0 used for HCP processing (/opt/freesurfer-HCP)
+    HCP Workbench (wbview and wbcommand) v1.3.2
+    HCP Pipelines v4.0.1
+    ANTS v2.3.1
+    Ciftify v2.1.0
+    AFNI v19,2_14 'Claudius'
+    ITK-SNAP v3.6.0
+
+When using FSL 5.0.6 some commands like flirt may write out an output matrix in hexadecimal format. You can convert these to decimal format using the script /opt/bin/convertHex.sh (see www.jiscmail.ac.uk/cgi-bin/webadmin?A2=fsl;8e169ec1507)
+
+For freesurfer, a matlab source file is also available at /opt/bin/startup.m to be used with matlab scripts.
+
+Please refer to https://github.com/MRIresearch/NeuroPipelines/blob/master/containers/nklab-fsltrixsurf/README.md for more information about this container.
