@@ -31,6 +31,7 @@ The image can be built using Singularity build in singularity (version >= 2.4, p
 * You will need to have singularity (version >= 2.4 installed, preferably version 3.0 or greater). Simply clone this repository to a convenient directory.
 * Navigate into the `nklab-neurotools-v0.4` directory and check that you have a Singularity definition file `nklab-neurotools-def` and the directory `src` 
 * Download ITK-SNAP 3.6.0 (STABLE VERSION) as a **Linux Binary (64 bit)** called  `itksnap-3.6.0-20170401-Linux-x86_64.tar.gz` from [ITK-SNAP](http://www.itksnap.org/pmwiki/pmwiki.php?n=Downloads.SNAP3) into the `src` directory.
+* Replace the boilerplate freesurfer license in the `src` folder with your own freesurfer license which you can download from the freesurfer website.
 * Now simply build the image as  `sudo singularity build nklab-neurotools-v0.4.sif nklab-neurotoolsf-def` - note that the image name is assumed to be `nklab-neurotools-v0.4.sif` but this can be changed to a more convenient label.
 
 ## Run Singularity Image
